@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GILI Notch 4.1.5: notch ala Dynamic Island untuk Windows</title>
+  <meta name="description" content="GILI Notch menambahkan notch ala Dynamic Island ke Windows: musik dengan lirik sinkron, Control Center, volume per aplikasi, catatan, to-do, Pomodoro, pencatat minum air, dan monitor sistem.">
+  <meta name="theme-color" content="#0B0F14">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/logo-32.png">
+  <link rel="apple-touch-icon" href="assets/img/logo-180.png">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script>
+    document.documentElement.classList.add("js");
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem("gili-notch-theme"); } catch (e) {}
+      document.documentElement.dataset.theme = saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">Langsung ke konten</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top">
+        <img src="assets/img/logo-180.png" alt="" width="36" height="36">
+        <span class="brand-name">GILI NOTCH</span>
+      </a>
+
+      <nav class="site-nav" id="site-nav" data-i18n-aria="nav.label" aria-label="Navigasi utama">
+        <a href="#features" data-i18n="nav.features">Fitur</a>
+        <a href="#customize" data-i18n="nav.customize">Kustomisasi</a>
+        <a href="#support" data-i18n="nav.support">Dukungan</a>
+      </nav>
+
+      <div class="header-tools">
+        <div class="segmented lang-switch" role="group" aria-label="Bahasa / Language">
+          <button type="button" data-lang="id" aria-pressed="true" aria-label="Bahasa Indonesia">IN</button>
+          <button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button>
+        </div>
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false" data-i18n-aria="theme.toggle" aria-label="Mode gelap">
+          <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="site-nav" data-i18n="nav.menu">Menu</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <h1 data-i18n="hero.title">Tepi atas layar Windows-mu, sekarang ada isinya.</h1>
+        <p class="lede" data-i18n="hero.lede">GILI Notch menambahkan notch ala Dynamic Island ke Windows. Buka notch-nya untuk musik dengan lirik sinkron, tombol cepat, volume per aplikasi, catatan, daftar tugas, dan timer fokus, tanpa meninggalkan jendela yang sedang kamu pakai.</p>
+        <div class="hero-actions">
+          <div class="action-with-note">
+            <a class="btn btn-primary" href="#" data-config-link="DOWNLOAD_URL" download="GILI-Notch-4.1.5.exe">
+              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span data-i18n="hero.download">Unduh GILI Notch 4.1.5</span>
+            </a>
+          </div>
+          <a class="btn btn-quiet" href="#features" data-i18n="hero.see">Lihat isi notch-nya</a>
+        </div>
+        <p class="hero-meta" data-i18n="hero.meta">Versi 4.1.5 untuk Windows, 17 MB</p>
+      </div>
+
+      <div class="demo" role="region" data-i18n-aria="stage.label" aria-label="Demo notch interaktif">
+        <div class="screen screen--hero" id="hero-stage">
+          <button type="button" class="notch" id="hero-notch" aria-expanded="false" aria-describedby="stage-caption">
+            <span class="notch-idle" aria-hidden="true">
+              <span class="idle-slot" data-live="clock">00.00</span>
+              <span class="eyes"><i></i><i></i></span>
+              <span class="idle-slot" data-live="date"></span>
+            </span>
+            <img class="notch-shot" alt="" decoding="async">
+            <span class="visually-hidden" id="notch-label"></span>
+          </button>
+          <p class="stage-hint" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 19V6m0 0-5 5m5-5 5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-i18n="stage.hint">Klik notch-nya</span>
+          </p>
+          <p class="stage-status" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="stage-controls">
+          <button type="button" class="icon-btn" id="stage-prev" data-i18n-aria="stage.prev" aria-label="Panel sebelumnya">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="stage-caption" id="stage-caption" aria-live="polite">
+            <p class="stage-caption-title"><span class="stage-count"></span> <strong class="stage-name"></strong></p>
+            <p class="stage-caption-desc"></p>
+          </div>
+          <button type="button" class="icon-btn" id="stage-next" data-i18n-aria="stage.next" aria-label="Panel berikutnya">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="pager" id="stage-pager" role="group" data-i18n-aria="stage.pager" aria-label="Pilih panel"></div>
+      </div>
+    </section>
+
+    <section class="opening" aria-labelledby="opening-title">
+      <div class="opening-text">
+        <h2 id="opening-title" data-i18n="open.title">Sapaan pembuka setiap kali GILI Notch dibuka</h2>
+        <p data-i18n="open.body">Ini rekaman asli dari aplikasinya. Notch membuka dari tepi atas layar, menyapa dengan logo Gili, lalu kembali ringkas.</p>
+        <ol class="opening-steps" id="opening-steps">
+          <li data-from="0" data-to="1.2" data-i18n="open.step1"><strong>Notch membuka.</strong> Berangkat dari mode idle yang menampilkan baterai, tanggal, dan jam.</li>
+          <li data-from="1.2" data-to="5.3" data-i18n="open.step2"><strong>Logo Gili muncul.</strong> Notch menahan sapaannya selama beberapa detik.</li>
+          <li data-from="5.3" data-to="99" data-i18n="open.step3"><strong>Kembali ringkas.</strong> Notch menutup lagi dan siap dipakai.</li>
+        </ol>
+        <p class="opening-note" data-i18n="open.note">Sapaan ini bisa dimatikan lewat Startup Greeting di tab General pada Settings.</p>
+      </div>
+      <figure class="clip clip--notch" data-video data-steps="opening-steps" data-still="3" data-reveal>
+        <video src="assets/video/gili-opening-notch.mp4" muted loop playsinline preload="metadata"
+               data-i18n-aria="open.video" aria-label="Rekaman notch GILI yang membuka, menampilkan logo Gili, lalu menutup kembali"></video>
+        <button type="button" class="video-toggle" data-i18n-aria="video.play" aria-label="Putar video">
+          <svg class="video-icon video-icon--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5Z" fill="currentColor"/></svg>
+          <svg class="video-icon video-icon--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 5h3v14h-3zM13.5 5h3v14h-3z" fill="currentColor"/></svg>
+        </button>
+      </figure>
+    </section>
+
+    <svg class="wave-divider" viewBox="0 0 248 28" aria-hidden="true" focusable="false"><path d="M6 14c10-9 20-9 30 0s20 9 30 0 20-9 30 0 20 9 30 0 20-9 30 0 20 9 30 0 20-9 30 0 20 9 30 0"/></svg>
+
+    <section class="features" id="features" aria-labelledby="features-title">
+      <header class="section-head">
+        <h2 id="features-title" data-i18n="features.title">Isi notch-nya</h2>
+        <p data-i18n="features.intro">Setiap panel punya tombol panah di bagian atas untuk pindah ke panel lain. Ini panel-panel utama di versi 4.1.5.</p>
+      </header>
+
+      <article class="feature feature--media" aria-labelledby="media-title">
+        <div class="feature-text">
+          <h3 id="media-title" data-i18n="media.title">Now Playing, lengkap dengan lirik sinkron</h3>
+          <p data-i18n="media.p1">Judul lagu, artis, dan cover tampil di notch bersama tombol putar, lompat lagu, dan volume. Panel ini juga menunjukkan aplikasi musik yang sedang memutar dan lagu yang terakhir kamu dengar.</p>
+          <p data-i18n="media.p2">Nyalakan lirik, dan GILI Notch mengambil lirik bertimestamp dari <a href="https://lrclib.net" target="_blank" rel="noopener">LRCLIB</a>. Baris yang sedang dinyanyikan disorot, dan kalau liriknya kecepetan atau telat, waktunya bisa kamu geser.</p>
+          <button type="button" class="switch" role="switch" aria-checked="false" id="lyrics-switch">
+            <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+            <span data-i18n="media.switch">Tampilkan lirik</span>
+          </button>
+        </div>
+        <figure class="feature-shot" data-reveal>
+          <div class="screen">
+            <button type="button" class="shot" data-zoom>
+              <img id="media-img" src="assets/img/panels/now-playing.webp" width="847" height="365" loading="lazy" decoding="async"
+                   data-i18n-alt="alt.nowPlaying" alt="Panel Now Playing GILI Notch memutar DtMF oleh Bad Bunny, dengan daftar lagu yang terakhir diputar"
+                   data-full="assets/img/original/now-playing.png">
+              <span class="zoom-tag" data-i18n="zoom">Ukuran penuh</span>
+            </button>
+          </div>
+        </figure>
+      </article>
+
+      <article class="feature feature--control" aria-labelledby="control-title">
+        <figure class="feature-shot" data-reveal>
+          <div class="screen">
+            <button type="button" class="shot" data-zoom>
+              <img id="control-img" src="assets/img/panels/control-center.webp" width="780" height="515" loading="lazy" decoding="async"
+                   data-i18n-alt="alt.controlCenter" alt="Control Center GILI Notch dengan Wi-Fi, Bluetooth, mode Jangan Ganggu, Hotspot, mode daya, pintasan, serta slider kecerahan dan volume"
+                   data-full="assets/img/original/control-center.png">
+              <span class="zoom-tag" data-i18n="zoom">Ukuran penuh</span>
+            </button>
+          </div>
+        </figure>
+        <div class="feature-text">
+          <h3 id="control-title" data-i18n="control.title">Pengaturan cepat tanpa membuka Settings Windows</h3>
+          <div class="tabs" data-tabs="control">
+            <div class="tablist" role="tablist" data-i18n-aria="control.tabs" aria-label="Panel kontrol">
+              <button type="button" role="tab" id="tab-cc" aria-controls="tp-cc" aria-selected="true"
+                      data-img="assets/img/panels/control-center.webp" data-w="780" data-h="515" data-alt-key="alt.controlCenter"
+                      data-full="assets/img/original/control-center.png">Control Center</button>
+              <button type="button" role="tab" id="tab-mixer" aria-controls="tp-mixer" aria-selected="false" tabindex="-1"
+                      data-img="assets/img/panels/volume-mixer.webp" data-w="780" data-h="525" data-alt-key="alt.volumeMixer"
+                      data-full="assets/img/original/volume-mixer.png">Volume Mixer</button>
+            </div>
+            <div role="tabpanel" id="tp-cc" aria-labelledby="tab-cc" tabindex="0">
+              <p data-i18n="control.cc">Wi-Fi, Bluetooth, Hotspot, dan mode Jangan Ganggu ada dalam satu grid, di samping pilihan mode daya, tombol kunci, dan menu power. Di bawahnya ada pintasan ke Snipping, Clipboard, To-Do, dan Files, lalu slider kecerahan dan volume.</p>
+            </div>
+            <div role="tabpanel" id="tp-mixer" aria-labelledby="tab-mixer" tabindex="0" hidden>
+              <p data-i18n="control.mixer">Di Volume Mixer, kamu memilih perangkat output lalu mengatur volume tiap aplikasi sendiri-sendiri, misalnya Discord tetap 100% sementara Chrome cukup 15%.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <section class="feature-group" aria-labelledby="prod-title">
+        <div class="group-head">
+          <h3 id="prod-title" data-i18n="prod.title">Alat kecil untuk jam kerja</h3>
+          <p data-i18n="prod.intro">Empat panel yang biasanya kamu buka sebagai aplikasi terpisah, sekarang ada di tepi atas layar.</p>
+          <div class="carousel-nav">
+            <button type="button" class="icon-btn icon-btn--light" data-carousel-prev data-i18n-aria="carousel.prev" aria-label="Panel sebelumnya" aria-controls="prod-track">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="icon-btn icon-btn--light" data-carousel-next data-i18n-aria="carousel.next" aria-label="Panel berikutnya" aria-controls="prod-track">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+        <ul class="carousel" id="prod-track" tabindex="0" data-i18n-aria="carousel.label" aria-label="Panel produktivitas, geser untuk melihat semua">
+          <li class="slide">
+            <div class="screen screen--compact">
+              <button type="button" class="shot" data-zoom>
+                <img src="assets/img/panels/todo.webp" width="780" height="365" loading="lazy" decoding="async"
+                     data-i18n-alt="alt.todo" alt="Panel To-Do List dengan filter Today, Upcoming, dan All, dan pesan semua tugas selesai"
+                     data-full="assets/img/original/todo.png">
+                <span class="zoom-tag" data-i18n="zoom">Ukuran penuh</span>
+              </button>
+            </div>
+            <h4>To-Do List</h4>
+            <p data-i18n="prod.todo">Ketik tugas, tekan Enter, dan tugas langsung masuk daftar. Saring per Today, Upcoming, atau All, dan tugas yang selesai terlipat rapi di bagian Completed.</p>
+          </li>
+          <li class="slide">
+            <div class="screen screen--compact">
+              <button type="button" class="shot" data-zoom>
+                <img src="assets/img/panels/mini-note.webp" width="780" height="440" loading="lazy" decoding="async"
+                     data-i18n-alt="alt.miniNote" alt="Panel Mini Note dengan satu catatan tersemat dan kolom pencarian"
+                     data-full="assets/img/original/mini-note.png">
+                <span class="zoom-tag" data-i18n="zoom">Ukuran penuh</span>
+              </button>
+            </div>
+            <h4>Mini Note</h4>
+            <p data-i18n="prod.note">Tekan <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd> kapan saja untuk membuat catatan cepat. Sematkan yang penting, cari sisanya.</p>
+          </li>
+          <li class="slide">
+            <div class="screen screen--compact">
+              <button type="button" class="shot" data-zoom>
+                <img src="assets/img/panels/file-shelf.webp" width="780" height="435" loading="lazy" decoding="async"
+                     data-i18n-alt="alt.fileShelf" alt="Panel File Shelf dengan area drag and drop dan tombol Choose files"
+                     data-full="assets/img/original/file-shelf.png">
+                <span class="zoom-tag" data-i18n="zoom">Ukuran penuh</span>
+              </button>
+            </div>
+            <h4>File Shelf</h4>
+            <p data-i18n="prod.shelf">Taruh file di rak ini untuk disimpan sebentar, lalu seret keluar ke WhatsApp, Discord, atau folder.</p>
+          </li>
+          <li class="slide">
+            <div class="screen screen--compact">
+              <button type="button" class="shot" data-zoom>
+                <img src="assets/img/panels/pomodoro.webp" width="780" height="423" loading="lazy" decoding="async"
+                     data-i18n-alt="alt.pomodoro" alt="Panel Pomodoro dengan timer fokus 25:00 dan pilihan Focus, Break, dan Long break"
+                     data-full="assets/img/original/pomodoro.png">
+                <span class="zoom-tag" data-i18n="zoom">Ukuran penuh</span>
+              </button>
+            </div>
+            <h4>Pomodoro</h4>
+            <p data-i18n="prod.pomodoro">Sesi fokus 25 menit dengan istirahat pendek dan panjang. Kaitkan sesi ke tugas tertentu dan lihat berapa sesi yang sudah selesai hari ini.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="feature-pair" aria-labelledby="health-title">
+        <h3 id="health-title" data-i18n="health.title">Minum air dan kondisi PC, sekilas lihat</h3>
+        <figure class="pair-item pair-item--water" data-reveal>
+          <div class="screen screen--compact">
+            <button type="button" class="shot" data-zoom>
+              <img src="assets/img/panels/water.webp" width="780" height="388" loading="lazy" decoding="async"
+                   data-i18n-alt="alt.water" alt="Panel Water dengan target 3,0 L, tombol Drink 250 ml, grafik per jam, History, dan Settings"
+                   data-full="assets/img/original/water.png">
+              <span class="zoom-tag" data-i18n="zoom">Ukuran penuh</span>
+            </button>
+          </div>
+          <figcaption>
+            <h4>Water</h4>
+            <p data-i18n="health.water">Tentukan target harian, catat tiap gelas dengan tombol Drink, lalu cek grafik per jam dan riwayatnya. Pengingat minum bisa dinyalakan atau dimatikan.</p>
+          </figcaption>
+        </figure>
+        <figure class="pair-item pair-item--monitor" data-reveal>
+          <div class="screen screen--compact">
+            <button type="button" class="shot" data-zoom>
+              <img src="assets/img/panels/system-monitor.webp" width="780" height="398" loading="lazy" decoding="async"
+                   data-i18n-alt="alt.systemMonitor" alt="Panel System Monitor dengan kartu CPU, GPU, Wi-Fi, dan Memory"
+                   data-full="assets/img/original/system-monitor.png">
+              <span class="zoom-tag" data-i18n="zoom">Ukuran penuh</span>
+            </button>
+          </div>
+          <figcaption>
+            <h4>System Monitor</h4>
+            <p data-i18n="health.monitor">Beban CPU dan GPU beserta suhunya, kecepatan Wi-Fi dan ping, serta pemakaian memori. Masing-masing punya tab sendiri kalau kamu mau lihat lebih detail.</p>
+          </figcaption>
+        </figure>
+      </section>
+    </section>
+
+    <section class="customize" id="customize" aria-labelledby="customize-title">
+      <header class="section-head section-head--split">
+        <h2 id="customize-title" data-i18n="cust.title">Ubah bentuk dan isinya</h2>
+        <p data-i18n="cust.intro">Coba beberapa pengaturan tampilan di bawah ini. Di aplikasinya, semua ini ada di menu Settings.</p>
+      </header>
+
+      <div class="playground">
+        <form class="pg-controls" id="pg-form" onsubmit="return false">
+          <fieldset class="pg-field">
+            <legend data-i18n="pg.shape">Bentuk</legend>
+            <div class="segmented segmented--radio">
+              <label><input type="radio" name="shape" value="anchored" checked><span data-i18n="pg.anchored">Menempel</span></label>
+              <label><input type="radio" name="shape" value="floating"><span data-i18n="pg.floating">Mengambang</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="pg-field">
+            <legend data-i18n="pg.position">Posisi</legend>
+            <div class="segmented segmented--radio">
+              <label><input type="radio" name="position" value="top" checked><span data-i18n="pg.top">Atas</span></label>
+              <label><input type="radio" name="position" value="bottom"><span data-i18n="pg.bottom">Bawah</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="pg-field pg-field--slots">
+            <legend data-i18n="pg.slots">Isi notch saat idle</legend>
+            <div class="slot-selects">
+              <label><span data-i18n="pg.left">Kiri</span>
+                <select name="left" data-slot-select></select>
+              </label>
+              <label><span data-i18n="pg.center">Tengah</span>
+                <select name="center" data-slot-select></select>
+              </label>
+              <label><span data-i18n="pg.right">Kanan</span>
+                <select name="right" data-slot-select></select>
+              </label>
+            </div>
+            <button type="button" class="btn btn-small" id="pg-swap">
+              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h12m0 0-3.5-3.5M19 7l-3.5 3.5M17 17H5m0 0 3.5-3.5M5 17l3.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span data-i18n="pg.swap">Tukar kiri dan kanan</span>
+            </button>
+          </fieldset>
+        </form>
+
+        <div class="pg-preview">
+          <div class="screen screen--pg" id="pg-screen" data-shape="anchored" data-position="top" role="img" data-i18n-aria="pg.preview" aria-label="Pratinjau notch">
+            <div class="pg-notch" aria-hidden="true">
+              <span class="idle-slot" data-pg-slot="left"></span>
+              <span class="idle-slot" data-pg-slot="center"></span>
+              <span class="idle-slot" data-pg-slot="right"></span>
+            </div>
+          </div>
+          <p class="pg-summary" id="pg-summary" aria-live="polite"></p>
+          <p class="pg-note" data-i18n="pg.note">Jam dan tanggal memakai waktu perangkatmu. Angka lainnya adalah contoh yang diambil dari tangkapan layar aplikasi.</p>
+        </div>
+      </div>
+
+      <div class="settings-tour">
+        <h3 data-i18n="settings.title">Lima tab di menu Settings</h3>
+        <div class="tabs" data-tabs="settings">
+          <div class="tablist tablist--settings" role="tablist" data-i18n-aria="settings.tabs" aria-label="Tab Settings">
+            <button type="button" role="tab" id="st-general" aria-controls="sp-general" aria-selected="true"
+                    data-img="assets/img/panels/settings-general.webp" data-w="780" data-h="544" data-alt-key="alt.settingsGeneral"
+                    data-full="assets/img/original/settings-general.png" data-i18n="settings.general">Umum</button>
+            <button type="button" role="tab" id="st-appearance" aria-controls="sp-appearance" aria-selected="false" tabindex="-1"
+                    data-img="assets/img/panels/settings-appearance.webp" data-w="780" data-h="544" data-alt-key="alt.settingsAppearance"
+                    data-full="assets/img/original/settings-appearance.png" data-i18n="settings.appearance">Tampilan</button>
+            <button type="button" role="tab" id="st-idle" aria-controls="sp-idle" aria-selected="false" tabindex="-1"
+                    data-img="assets/img/panels/settings-idle.webp" data-w="780" data-h="544" data-alt-key="alt.settingsIdle"
+                    data-full="assets/img/original/settings-idle.png">Idle</button>
+            <button type="button" role="tab" id="st-modules" aria-controls="sp-modules" aria-selected="false" tabindex="-1"
+                    data-img="assets/img/panels/settings-modules.webp" data-w="780" data-h="544" data-alt-key="alt.settingsModules"
+                    data-full="assets/img/original/settings-modules.png" data-i18n="settings.modules">Modul</button>
+            <button type="button" role="tab" id="st-advanced" aria-controls="sp-advanced" aria-selected="false" tabindex="-1"
+                    data-img="assets/img/panels/settings-advanced.webp" data-w="780" data-h="544" data-alt-key="alt.settingsAdvanced"
+                    data-full="assets/img/original/settings-advanced.png" data-i18n="settings.advanced">Lanjutan</button>
+          </div>
+          <div class="settings-body">
+            <figure class="settings-shot">
+              <div class="screen">
+                <button type="button" class="shot" data-zoom>
+                  <img id="settings-img" src="assets/img/panels/settings-general.webp" width="780" height="544" loading="lazy" decoding="async"
+                       data-i18n-alt="alt.settingsGeneral" alt="Tab General di Settings GILI Notch: bahasa, Start with Windows, Startup Greeting, Greeting Name, dan Auto-compact mode"
+                       data-full="assets/img/original/settings-general.png">
+                  <span class="zoom-tag" data-i18n="zoom">Ukuran penuh</span>
+                </button>
+              </div>
+            </figure>
+            <div class="settings-panels">
+              <div role="tabpanel" id="sp-general" aria-labelledby="st-general" tabindex="0">
+                <p data-i18n="settings.generalText">Bahasa antarmuka (English atau Indonesia), jalan otomatis saat Windows menyala, sapaan pembuka dengan namamu, mode auto-compact yang mengecilkan notch selama browser aktif, dan jeda sebelum panel menutup.</p>
+              </div>
+              <div role="tabpanel" id="sp-appearance" aria-labelledby="st-appearance" tabindex="0" hidden>
+                <p data-i18n="settings.appearanceText">Pilih notch yang menempel di tepi layar atau pulau yang mengambang, taruh di atas atau bawah, pakai tema gelap, terang, atau otomatis, dan atur ukuran huruf kecil, normal, atau besar.</p>
+              </div>
+              <div role="tabpanel" id="sp-idle" aria-labelledby="st-idle" tabindex="0" hidden>
+                <p data-i18n="settings.idleText">Tentukan isi slot kiri, tengah, dan kanan saat notch tertutup: jam, tanggal, baterai, CPU, RAM, kecepatan internet, ping, cuaca, to-do, FPS, slot Smart, atau kosong. Ada pratinjau langsung dan tombol untuk menukar kiri dan kanan.</p>
+              </div>
+              <div role="tabpanel" id="sp-modules" aria-labelledby="st-modules" tabindex="0" hidden>
+                <p data-i18n="settings.modulesText">Nyalakan atau matikan modul satu per satu: Volume Monitor, Clipboard Monitor, Media Player, efek suara, dan Pomodoro.</p>
+              </div>
+              <div role="tabpanel" id="sp-advanced" aria-labelledby="st-advanced" tabindex="0" hidden>
+                <p data-i18n="settings.advancedText">Cek pembaruan, bersihkan file sementara, ulangi panduan awal, tes notifikasi idle, atau kembalikan semua pengaturan ke bawaan.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="download" aria-labelledby="cta-title">
+      <div class="cta-text">
+        <h2 id="cta-title" data-i18n="cta.title">Pasang GILI Notch di PC-mu</h2>
+        <p data-i18n="cta.body">Unduh GILI Notch 4.1.5, jalankan file-nya, dan notch langsung muncul di tepi atas layar. Ada pertanyaan sebelum memasang? Tanyakan saja di Discord.</p>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="#" data-config-link="DOWNLOAD_URL" download="GILI-Notch-4.1.5.exe">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-i18n="hero.download">Unduh GILI Notch 4.1.5</span>
+          </a>
+          <a class="btn btn-quiet" href="#" data-config-link="DISCORD_URL" target="_blank" rel="noopener" data-i18n="cta.discord">Tanya di Discord</a>
+        </div>
+        <p class="cta-meta" data-i18n="cta.meta">File .exe untuk Windows, 17 MB</p>
+      </div>
+      <figure class="clip clip--logo" data-video data-still="6" data-reveal>
+        <video src="assets/video/gili-v11-putih.mp4" muted loop playsinline preload="metadata"
+               data-i18n-aria="cta.video" aria-label="Animasi logo Gili: kubah biru dengan gelombang, lalu tulisan gili, notch for windows"></video>
+        <button type="button" class="video-toggle" data-i18n-aria="video.play" aria-label="Putar video">
+          <svg class="video-icon video-icon--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5Z" fill="currentColor"/></svg>
+          <svg class="video-icon video-icon--pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 5h3v14h-3zM13.5 5h3v14h-3z" fill="currentColor"/></svg>
+        </button>
+      </figure>
+    </section>
+
+    <section class="support" id="support" aria-labelledby="support-title">
+      <div class="support-inner">
+        <div class="support-intro">
+          <h2 id="support-title" data-i18n="support.title">Dukung GILI Notch</h2>
+          <p data-i18n="support.body">Kalau GILI Notch sudah betah di atas layarmu, kamu bisa ikut mendukung pengembangannya dengan scan kode QRIS.</p>
+        </div>
+
+        <div class="qris">
+          <div class="qris-card">
+            <h3 data-i18n="qris.title">Bayar dengan QRIS</h3>
+            <img src="assets/img/qris.png" width="1280" height="1280" loading="lazy" decoding="async"
+                 data-i18n-alt="qris.alt" alt="Kode QRIS untuk mendukung GILI Notch">
+            <p class="qris-note"><strong data-i18n="qris.scan">Scan untuk bayar.</strong> <span data-i18n="qris.how">Buka aplikasi e-wallet atau m-banking yang mendukung QRIS, lalu arahkan kamera ke kode ini.</span></p>
+            <p class="qris-mobile"><span data-i18n="qris.mobile">Buka halaman ini di HP? Simpan gambarnya, lalu unggah dari galeri di aplikasi pembayaranmu.</span>
+              <a href="assets/img/qris.png" download="gili-notch-qris.png" data-i18n="qris.save">Simpan gambar QRIS</a></p>
+          </div>
+          <svg class="qris-dome" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+            <path class="dome" d="M20 170a140 140 0 0 1 280 0Z"/>
+            <path class="dome-wave" d="M28 188c11-9 22-9 33 0s22 9 33 0 22-9 33 0 22 9 33 0 22-9 33 0 22 9 33 0 22-9 33 0 22 9 33 0"/>
+          </svg>
+        </div>
+
+        <div class="support-help">
+          <h3 data-i18n="help.title">Butuh bantuan?</h3>
+          <p data-i18n="help.body">Pertanyaan, laporan bug, atau ide fitur bisa kamu bawa ke server Discord.</p>
+          <div class="action-with-note">
+            <a class="btn btn-onDark" href="#" data-config-link="DISCORD_URL" target="_blank" rel="noopener">
+              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v7a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A1.5 1.5 0 0 1 5 14.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+              <span data-i18n="help.cta">Gabung ke Discord</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-brand"><img src="assets/img/logo-180.png" alt="" width="28" height="28"> <span data-i18n="footer.line">GILI Notch 4.1.5 untuk Windows</span></p>
+      <nav class="footer-links" data-i18n-aria="footer.nav" aria-label="Tautan footer">
+        <a href="#" data-config-link="DISCORD_URL" data-plain-link target="_blank" rel="noopener">Discord</a>        <a href="#top" data-i18n="footer.top">Kembali ke atas</a>
+      </nav>
+    </div>
+  </footer>
+
+  <dialog class="lightbox" id="lightbox" data-i18n-aria="lightbox.label" aria-label="Tangkapan layar ukuran penuh">
+    <div class="lightbox-bar">
+      <p class="lightbox-caption" id="lightbox-caption"></p>
+      <button type="button" class="icon-btn icon-btn--onDark" id="lightbox-close" data-i18n-aria="lightbox.close" aria-label="Tutup">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="lightbox-media">
+      <img id="lightbox-img" alt="">
+      <p class="lightbox-status" id="lightbox-status" role="status" aria-live="polite"></p>
+    </div>
+  </dialog>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
