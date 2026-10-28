@@ -399,10 +399,46 @@ kbd {
   gap: 12px 14px;
 }
 .hero-meta {
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 0.9375rem;
   font-weight: 600;
   color: var(--muted);
+}
+
+.download-count {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.download-count strong {
+  color: var(--text);
+  font-size: 1.125rem;
+  font-variant-numeric: tabular-nums;
+}
+.download-count-live {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  color: var(--blue-text);
+  font-weight: 800;
+}
+.download-count-live.is-live { display: inline-flex; }
+.download-count-live::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: live-blink 2.4s ease-in-out infinite;
+}
+@keyframes live-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
 }
 
 .demo { min-width: 0; }

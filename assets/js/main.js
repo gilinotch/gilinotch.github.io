@@ -5,7 +5,7 @@
  */
 const CONFIG = {
   DISCORD_URL: "https://discord.gg/p99FQFrHkG",
-  DOWNLOAD_URL: "downloads/GILI-Notch-4.1.6-setup.exe",
+  DOWNLOAD_URL: "downloads/GILI-Notch-4.2.1.exe",
 };
 
 const LANG_KEY = "gili-notch-lang";
@@ -13,7 +13,7 @@ const THEME_KEY = "gili-notch-theme";
 
 /* English copy. Indonesian copy lives in index.html and is read from the DOM at startup. */
 const EN = {
-  "meta.title": "GILI Notch 4.1.6: a Dynamic Island style notch for Windows",
+  "meta.title": "GILI Notch 4.2.1: a Dynamic Island style notch for Windows",
   "meta.description": "GILI Notch adds a Dynamic Island style notch to Windows: music with synced lyrics, a Control Center, per-app volume, notes, to-dos, Pomodoro, a water tracker and a system monitor.",
   "skip": "Skip to content",
   "nav.label": "Main navigation",
@@ -24,9 +24,11 @@ const EN = {
   "theme.toggle": "Dark mode",
   "hero.title": "The top edge of your Windows screen, put to work.",
   "hero.lede": "GILI Notch adds a Dynamic Island style notch to Windows. Open it for your music with synced lyrics, quick toggles, per-app volume, notes, a to-do list and a focus timer, without leaving the window you are working in.",
-  "hero.download": "Download GILI Notch 4.1.6",
+  "hero.download": "Download GILI Notch 4.2.1",
   "hero.see": "See what's inside",
-  "hero.meta": "Version 4.1.6 for Windows, 20 MB",
+  "hero.meta": "Version 4.2.1 for Windows, 18 MB",
+  "download.live": "Live",
+  "download.total": "Total downloads",
   "open.title": "A short hello every time GILI Notch opens",
   "open.body": "This is a real recording from the app. The notch opens from the top edge of the screen, greets you with the Gili logo, then goes back to compact.",
   "open.step1": "<strong>The notch opens.</strong> It starts from the idle view with battery, date and time.",
@@ -42,7 +44,7 @@ const EN = {
   "stage.next": "Next panel",
   "stage.pager": "Choose a panel",
   "features.title": "What's inside the notch",
-  "features.intro": "Every panel has arrow buttons at the top for moving to the next one. These are the main panels in version 4.1.6.",
+  "features.intro": "Every panel has arrow buttons at the top for moving to the next one. These are the main panels in version 4.2.1.",
   "media.title": "Now Playing, with synced lyrics",
   "media.p1": "The song title, artist and cover art show up in the notch with play, skip and volume controls. The panel also shows which music app is playing and what you listened to last.",
   "media.p2": "Turn on lyrics and GILI Notch pulls time-stamped lyrics from <a href=\"https://lrclib.net\" target=\"_blank\" rel=\"noopener\">LRCLIB</a>. The line being sung is highlighted, and if the lyrics run early or late you can shift the timing.",
@@ -91,9 +93,9 @@ const EN = {
   "settings.modulesText": "Turn modules on or off one by one: Volume Monitor, Clipboard Monitor, Media Player, sound effects and Pomodoro.",
   "settings.advancedText": "Check for updates, clean temporary files, rerun the welcome setup, test the idle notification, or reset every setting to its default.",
   "cta.title": "Put GILI Notch on your PC",
-  "cta.body": "Download GILI Notch 4.1.6, run the file, and the notch appears at the top edge of your screen. Questions before you install? Ask on Discord.",
+  "cta.body": "Download GILI Notch 4.2.1, run the file, and the notch appears at the top edge of your screen. Questions before you install? Ask on Discord.",
   "cta.discord": "Ask on Discord",
-  "cta.meta": "Windows .exe file, 20 MB",
+  "cta.meta": "Windows .exe file, 18 MB",
   "cta.video": "Gili logo animation: a blue dome with waves, then the words gili, notch for windows",
   "support.title": "Support GILI Notch",
   "support.body": "If GILI Notch has earned its spot at the top of your screen, you can support its development by scanning the QRIS code.",
@@ -106,7 +108,7 @@ const EN = {
   "help.title": "Need help?",
   "help.body": "Bring your questions, bug reports and feature ideas to the Discord server.",
   "help.cta": "Join the Discord server",
-  "footer.line": "GILI Notch 4.1.6 for Windows",
+  "footer.line": "GILI Notch 4.2.1 for Windows",
   "footer.nav": "Footer links",
   "footer.top": "Back to top",
   "lightbox.label": "Full-size screenshot",
@@ -332,6 +334,50 @@ function initConfigLinks() {
       note.animate?.([{ transform: "translateX(0)" }, { transform: "translateX(4px)" }, { transform: "translateX(0)" }], { duration: 220 });
     });
   });
+}
+
+/* ---------- Download count ---------- */
+
+// 1,100 is the owner's starting total. The counter stores only clicks on the download button.
+const DOWNLOAD_BASE = 1100;
+const COUNTER_KEY = "gilinotch.github.io/downloads";
+let downloadClicks = 0;
+
+function formatDownloads(total) {
+  return new Intl.NumberFormat(lang === "id" ? "id-ID" : "en-US").format(total);
+}
+
+function paintDownloads(clicks, live) {
+  downloadClicks = clicks;
+  const text = formatDownloads(DOWNLOAD_BASE + clicks);
+  $$("[data-download-value]").forEach((el) => { if (el.textContent !== text) el.textContent = text; });
+  $$("[data-download-live]").forEach((el) => el.classList.toggle("is-live", live));
+}
+
+async function counterRequest(action) {
+  const response = await fetch(`https://abacus.jasoncameron.dev/${action}/${COUNTER_KEY}`);
+  if (action === "get" && response.status === 404) return 0;
+  if (!response.ok) throw new Error(String(response.status));
+  const data = await response.json();
+  return Number(data.value) || 0;
+}
+
+function initDownloadCount() {
+  const refresh = () => {
+    counterRequest("get").then((n) => paintDownloads(n, true)).catch(() => paintDownloads(downloadClicks, false));
+  };
+  refresh();
+  setInterval(refresh, 20000);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") refresh();
+  });
+  $$('[data-config-link="DOWNLOAD_URL"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      if (link.getAttribute("aria-disabled") === "true") return;
+      counterRequest("hit").then((n) => paintDownloads(n, true)).catch(() => {});
+    });
+  });
+  onLangChange.push(() => paintDownloads(downloadClicks, document.querySelector("[data-download-live].is-live") !== null));
 }
 
 /* ---------- Header menu ---------- */
@@ -742,6 +788,7 @@ function initReveal() {
 initLang();
 initTheme();
 initConfigLinks();
+initDownloadCount();
 initMenu();
 initStage();
 initLyricsSwitch();
