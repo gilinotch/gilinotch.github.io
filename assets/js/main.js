@@ -5,7 +5,7 @@
  */
 const CONFIG = {
   DISCORD_URL: "https://discord.gg/p99FQFrHkG",
-  DOWNLOAD_URL: "downloads/GILI-Notch-4.1.5.exe",
+  DOWNLOAD_URL: "downloads/GILI-Notch-4.1.6-setup.exe",
 };
 
 const LANG_KEY = "gili-notch-lang";
@@ -13,7 +13,7 @@ const THEME_KEY = "gili-notch-theme";
 
 /* English copy. Indonesian copy lives in index.html and is read from the DOM at startup. */
 const EN = {
-  "meta.title": "GILI Notch 4.1.5: a Dynamic Island style notch for Windows",
+  "meta.title": "GILI Notch 4.1.6: a Dynamic Island style notch for Windows",
   "meta.description": "GILI Notch adds a Dynamic Island style notch to Windows: music with synced lyrics, a Control Center, per-app volume, notes, to-dos, Pomodoro, a water tracker and a system monitor.",
   "skip": "Skip to content",
   "nav.label": "Main navigation",
@@ -24,9 +24,9 @@ const EN = {
   "theme.toggle": "Dark mode",
   "hero.title": "The top edge of your Windows screen, put to work.",
   "hero.lede": "GILI Notch adds a Dynamic Island style notch to Windows. Open it for your music with synced lyrics, quick toggles, per-app volume, notes, a to-do list and a focus timer, without leaving the window you are working in.",
-  "hero.download": "Download GILI Notch 4.1.5",
+  "hero.download": "Download GILI Notch 4.1.6",
   "hero.see": "See what's inside",
-  "hero.meta": "Version 4.1.5 for Windows, 17 MB",
+  "hero.meta": "Version 4.1.6 for Windows, 20 MB",
   "open.title": "A short hello every time GILI Notch opens",
   "open.body": "This is a real recording from the app. The notch opens from the top edge of the screen, greets you with the Gili logo, then goes back to compact.",
   "open.step1": "<strong>The notch opens.</strong> It starts from the idle view with battery, date and time.",
@@ -42,7 +42,7 @@ const EN = {
   "stage.next": "Next panel",
   "stage.pager": "Choose a panel",
   "features.title": "What's inside the notch",
-  "features.intro": "Every panel has arrow buttons at the top for moving to the next one. These are the main panels in version 4.1.5.",
+  "features.intro": "Every panel has arrow buttons at the top for moving to the next one. These are the main panels in version 4.1.6.",
   "media.title": "Now Playing, with synced lyrics",
   "media.p1": "The song title, artist and cover art show up in the notch with play, skip and volume controls. The panel also shows which music app is playing and what you listened to last.",
   "media.p2": "Turn on lyrics and GILI Notch pulls time-stamped lyrics from <a href=\"https://lrclib.net\" target=\"_blank\" rel=\"noopener\">LRCLIB</a>. The line being sung is highlighted, and if the lyrics run early or late you can shift the timing.",
@@ -91,9 +91,9 @@ const EN = {
   "settings.modulesText": "Turn modules on or off one by one: Volume Monitor, Clipboard Monitor, Media Player, sound effects and Pomodoro.",
   "settings.advancedText": "Check for updates, clean temporary files, rerun the welcome setup, test the idle notification, or reset every setting to its default.",
   "cta.title": "Put GILI Notch on your PC",
-  "cta.body": "Download GILI Notch 4.1.5, run the file, and the notch appears at the top edge of your screen. Questions before you install? Ask on Discord.",
+  "cta.body": "Download GILI Notch 4.1.6, run the file, and the notch appears at the top edge of your screen. Questions before you install? Ask on Discord.",
   "cta.discord": "Ask on Discord",
-  "cta.meta": "Windows .exe file, 17 MB",
+  "cta.meta": "Windows .exe file, 20 MB",
   "cta.video": "Gili logo animation: a blue dome with waves, then the words gili, notch for windows",
   "support.title": "Support GILI Notch",
   "support.body": "If GILI Notch has earned its spot at the top of your screen, you can support its development by scanning the QRIS code.",
@@ -106,7 +106,7 @@ const EN = {
   "help.title": "Need help?",
   "help.body": "Bring your questions, bug reports and feature ideas to the Discord server.",
   "help.cta": "Join the Discord server",
-  "footer.line": "GILI Notch 4.1.5 for Windows",
+  "footer.line": "GILI Notch 4.1.6 for Windows",
   "footer.nav": "Footer links",
   "footer.top": "Back to top",
   "lightbox.label": "Full-size screenshot",
