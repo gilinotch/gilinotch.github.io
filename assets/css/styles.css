@@ -180,14 +180,6 @@ kbd {
 .btn-onDark { background: var(--paper); color: var(--ink); }
 .btn-onDark:hover { background: var(--white); }
 
-.btn-msix { background: transparent; color: var(--text); border-color: var(--blue); }
-.btn-msix:hover {
-  background: var(--blue);
-  color: var(--ink);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px -14px rgb(47 123 255 / 0.85);
-}
-
 .btn-small {
   min-height: 44px;
   padding: 0 14px;
