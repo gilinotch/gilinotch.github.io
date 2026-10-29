@@ -180,6 +180,14 @@ kbd {
 .btn-onDark { background: var(--paper); color: var(--ink); }
 .btn-onDark:hover { background: var(--white); }
 
+.btn-msix { background: transparent; color: var(--text); border-color: var(--blue); }
+.btn-msix:hover {
+  background: var(--blue);
+  color: var(--ink);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -14px rgb(47 123 255 / 0.85);
+}
+
 .btn-small {
   min-height: 44px;
   padding: 0 14px;
@@ -1161,6 +1169,7 @@ kbd {
 @media (min-width: 760px) {
   .feature-pair { grid-template-columns: 5fr 7fr; align-items: start; column-gap: 32px; }
   .feature-pair > h3 { grid-column: 1 / -1; }
+  .feature-pair > .pair-item:last-child:nth-child(3n) { grid-column: 1 / -1; max-width: 640px; }
   .section-head--split { grid-template-columns: 1fr 1fr; align-items: end; gap: 40px; }
   .section-head--split p { margin-top: 0; }
   .settings-body { grid-template-columns: 7fr 5fr; gap: 40px; }

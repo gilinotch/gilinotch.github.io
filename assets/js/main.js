@@ -6,6 +6,7 @@
 const CONFIG = {
   DISCORD_URL: "https://discord.gg/p99FQFrHkG",
   DOWNLOAD_URL: "downloads/GILI-Notch-4.2.1.exe",
+  MSIX_URL: "downloads/GILI-Notch-4.2.1.msix",
 };
 
 const LANG_KEY = "gili-notch-lang";
@@ -24,7 +25,8 @@ const EN = {
   "theme.toggle": "Dark mode",
   "hero.title": "The top edge of your Windows screen, put to work.",
   "hero.lede": "GILI Notch adds a Dynamic Island style notch to Windows. Open it for your music with synced lyrics, quick toggles, per-app volume, notes, a to-do list and a focus timer, without leaving the window you are working in.",
-  "hero.download": "Download GILI Notch 4.2.1",
+  "hero.download": "Download GILI Notch 4.2.1 (.exe)",
+  "hero.downloadMsix": "Download the MSIX version",
   "hero.see": "See what's inside",
   "hero.meta": "Version 4.2.1 for Windows, 18 MB",
   "download.live": "Live",
@@ -63,8 +65,10 @@ const EN = {
   "prod.note": "Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd> anytime to start a quick note. Pin the ones that matter and search the rest.",
   "prod.shelf": "Drop files on the shelf to hold them for a moment, then drag them out to WhatsApp, Discord or a folder.",
   "prod.pomodoro": "25-minute focus sessions with short and long breaks. Tie a session to a task and see how many sessions you finished today.",
-  "health.title": "Water and PC stats at a glance",
+  "health.title": "Water, prayer, and PC stats at a glance",
   "health.water": "Set a daily goal, log each glass with the Drink button, then check the hourly chart and your history. Drink reminders can be switched on or off.",
+  "health.prayerTitle": "Prayer",
+  "health.prayer": "Five daily prayer times for your location with the Hijri date, a countdown to the next prayer, and Mark/Done buttons for the ones you completed.",
   "health.monitor": "CPU and GPU load with temperatures, Wi-Fi speed and ping, and memory use. Each one has its own tab when you want more detail.",
   "cust.title": "Change its shape and what it shows",
   "cust.intro": "Try a few of the appearance settings below. In the app, all of them live in Settings.",
@@ -81,21 +85,26 @@ const EN = {
   "pg.swap": "Swap left and right",
   "pg.preview": "Notch preview",
   "pg.note": "Clock and date use your device's time. The other values are examples taken from the app's screenshots.",
-  "settings.title": "Five tabs in Settings",
-  "settings.tabs": "Settings tabs",
+  "settings.title": "A separate Gili Settings app",
+  "settings.lede": "Since 4.2.1, settings live in their own app called Gili Settings. Seven pages in the left sidebar, live preview on the right.",
+  "settings.tabs": "Gili Settings pages",
+  "settings.tabsNav": "Tabs & Navigation",
+  "settings.tabsText": "Reorder and toggle notch tabs with drag handles or arrows, with a live dock preview and an active-tab counter.",
   "settings.general": "General",
   "settings.appearance": "Appearance",
-  "settings.modules": "Modules",
-  "settings.advanced": "Advanced",
+  "settings.notif": "Notifications",
+  "settings.shortcuts": "Shortcuts",
+  "settings.system": "System",
   "settings.generalText": "Interface language (English or Indonesia), launch with Windows, a startup greeting with your name, auto-compact mode that shrinks the notch while a browser is active, and the delay before a panel closes.",
-  "settings.appearanceText": "Choose a notch anchored to the screen edge or a floating island, put it at the top or bottom, use a dark, light or auto theme, and set the font size to small, normal or large.",
+  "settings.appearanceText": "Choose an anchored notch or a floating island, top or bottom position, dark/light/auto theme, font size, idle size, panel width, Gili Ears, and transparency.",
   "settings.idleText": "Decide what the closed notch shows in its left, center and right slots: clock, date, battery, CPU, RAM, net speed, ping, weather, to-do, FPS, a Smart slot, or nothing. A live preview and a swap button help you arrange them.",
-  "settings.modulesText": "Turn modules on or off one by one: Volume Monitor, Clipboard Monitor, Media Player, sound effects and Pomodoro.",
-  "settings.advancedText": "Check for updates, clean temporary files, rerun the welcome setup, test the idle notification, or reset every setting to its default.",
+  "settings.notifText": "Set notification duration and sound, move Windows notifications into Gili, test pop-ups, and toggle Volume Monitor, Clipboard Monitor, Media Player, sound effects, and Pomodoro.",
+  "settings.shortcutsText": "Global shortcuts: open/close the notch, quick-add a task, quick note, jump to the music page, play/pause, focus mode, and hide the notch. All remappable.",
+  "settings.systemText": "Check for updates, clean temporary files and the Windows cache, test the idle notification, or reset every setting to its default.",
   "cta.title": "Put GILI Notch on your PC",
   "cta.body": "Download GILI Notch 4.2.1, run the file, and the notch appears at the top edge of your screen. Questions before you install? Ask on Discord.",
   "cta.discord": "Ask on Discord",
-  "cta.meta": "Windows .exe file, 18 MB",
+  "cta.meta": "Windows .exe or .msix file, 18–24 MB",
   "cta.video": "Gili logo animation: a blue dome with waves, then the words gili, notch for windows",
   "support.title": "Support GILI Notch",
   "support.body": "If GILI Notch has earned its spot at the top of your screen, you can support its development by scanning the QRIS code.",
@@ -123,12 +132,15 @@ const EN = {
   "alt.fileShelf": "File Shelf panel with a drag and drop area and a Choose files button",
   "alt.pomodoro": "Pomodoro panel with a 25:00 focus timer and Focus, Break and Long break modes",
   "alt.water": "Water panel with a 3.0 L goal, a 250 ml Drink button, an hourly chart, History and Settings",
+  "alt.prayer": "GILI Notch Prayer panel: five daily prayer times for Malang with the next-prayer highlight and Mark buttons",
   "alt.systemMonitor": "System Monitor panel with CPU, GPU, Wi-Fi and Memory cards",
-  "alt.settingsGeneral": "General tab in GILI Notch Settings: language, Start with Windows, Startup Greeting, Greeting Name and Auto-compact mode",
-  "alt.settingsAppearance": "Appearance tab in Settings: anchored or floating shape, position, theme mode and font size",
-  "alt.settingsIdle": "Idle tab in Settings: live preview and the item picker for the left, center and right slots",
-  "alt.settingsModules": "Modules tab in Settings with switches for Volume Monitor, Clipboard Monitor, Media Player, Sound Effects and Pomodoro",
-  "alt.settingsAdvanced": "Advanced tab in Settings: Software Update for version 4.1.5, Clean Temporary Files, Restart Initial Setup, Test Idle Notification and Reset All Settings",
+  "alt.settingsTabs": "Tabs and Navigation page in Gili Settings: live notch dock preview and a sortable tab list",
+  "alt.settingsGeneral": "General and Behavior page in Gili Settings: language, Start with Windows, Startup Greeting, Greeting Name and Auto-compact mode",
+  "alt.settingsAppearance": "Appearance and Style page in Gili Settings: anchored or floating shape, position, theme mode, font size, idle size and transparency",
+  "alt.settingsIdle": "Idle Bar Layout page in Gili Settings: live preview and the item picker for the left, center and right slots",
+  "alt.settingsNotif": "Notifications and Modules page in Gili Settings with duration, sound, and switches for Volume Monitor, Clipboard Monitor, Media Player, Sound Effects and Pomodoro",
+  "alt.settingsShortcuts": "Keyboard Shortcuts page in Gili Settings: global hotkeys for the notch, tasks, notes, music and focus mode",
+  "alt.settingsSystem": "System and About page in Gili Settings: Software Update, Clean Temporary Files, Test Idle Notification and Reset All Settings",
 
   "placeholder": "Link not set yet",
   "stage.loading": "Loading screenshot…",
@@ -145,6 +157,7 @@ const EN = {
   "panel.fileShelf": "A holding spot for files before you drag them into another app.",
   "panel.pomodoro": "25-minute focus sessions and breaks.",
   "panel.water": "Your daily water log.",
+  "panel.prayer": "Five daily prayer times with a countdown to the next one.",
   "panel.systemMonitor": "CPU, GPU, Wi-Fi and memory.",
   "panel.settings": "Language, appearance, idle slots, modules and more.",
 
@@ -166,10 +179,12 @@ const EN = {
 const ID_EXTRA = {
   "alt.lyrics": "Panel Now Playing dengan lirik sinkron dari LRCLIB, baris yang sedang dinyanyikan disorot",
   "alt.volumeMixer": "Panel Volume Mixer dengan perangkat output dan slider volume terpisah untuk Chrome, Discord, Steam, dan Wallpaper32",
-  "alt.settingsAppearance": "Tab Appearance di Settings: bentuk anchored atau floating, posisi, mode tema, dan ukuran huruf",
-  "alt.settingsIdle": "Tab Idle di Settings: pratinjau langsung dan pilihan isi untuk slot kiri, tengah, dan kanan",
-  "alt.settingsModules": "Tab Modules di Settings dengan sakelar Volume Monitor, Clipboard Monitor, Media Player, Sound Effects, dan Pomodoro",
-  "alt.settingsAdvanced": "Tab Advanced di Settings: Software Update versi 4.1.5, Clean Temporary Files, Restart Initial Setup, Test Idle Notification, dan Reset All Settings",
+  "alt.settingsAppearance": "Halaman Appearance and Style di Gili Settings: bentuk anchored atau floating, posisi, mode tema, ukuran huruf, ukuran idle, dan transparansi",
+  "alt.settingsIdle": "Halaman Idle Bar Layout di Gili Settings: pratinjau langsung dan pilihan isi untuk slot kiri, tengah, dan kanan",
+  "alt.settingsNotif": "Halaman Notifications and Modules di Gili Settings: durasi, bunyi, dan sakelar Volume Monitor, Clipboard Monitor, Media Player, Sound Effects, dan Pomodoro",
+  "alt.settingsShortcuts": "Halaman Keyboard Shortcuts di Gili Settings: hotkey global untuk notch, tugas, catatan, musik, dan mode fokus",
+  "alt.settingsSystem": "Halaman System and About di Gili Settings: Software Update, Clean Temporary Files, Test Idle Notification, dan Reset All Settings",
+  "alt.prayer": "Panel Prayer GILI Notch: jadwal shalat lima waktu untuk Malang dengan penanda shalat berikutnya dan tombol Mark",
 
   "placeholder": "Tautan belum diatur",
   "video.pause": "Jeda video",
@@ -187,6 +202,7 @@ const ID_EXTRA = {
   "panel.fileShelf": "Tempat transit file sebelum kamu seret ke aplikasi lain.",
   "panel.pomodoro": "Sesi fokus 25 menit dan jeda istirahat.",
   "panel.water": "Catatan minum air harianmu.",
+  "panel.prayer": "Jadwal shalat lima waktu dengan hitung mundur ke shalat berikutnya.",
   "panel.systemMonitor": "CPU, GPU, Wi-Fi, dan memori.",
   "panel.settings": "Bahasa, tampilan, slot idle, modul, dan lainnya.",
 
@@ -212,8 +228,8 @@ const PANELS = [
   { key: "fileShelf", name: "File Shelf", file: "file-shelf", w: 780, h: 435 },
   { key: "pomodoro", name: "Pomodoro", file: "pomodoro", w: 780, h: 423 },
   { key: "water", name: "Water", file: "water", w: 780, h: 388 },
+  { key: "prayer", name: "Prayer", file: "prayer", w: 780, h: 439 },
   { key: "systemMonitor", name: "System Monitor", file: "system-monitor", w: 780, h: 398 },
-  { key: "settings", name: "Settings", file: "settings-general", w: 780, h: 544 },
 ];
 
 /* Sample values copied from the app screenshots; clock and date are live. */
@@ -371,7 +387,7 @@ function initDownloadCount() {
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") refresh();
   });
-  $$('[data-config-link="DOWNLOAD_URL"]').forEach((link) => {
+  $$('[data-config-link="DOWNLOAD_URL"], [data-config-link="MSIX_URL"]').forEach((link) => {
     link.addEventListener("click", () => {
       if (link.getAttribute("aria-disabled") === "true") return;
       counterRequest("hit").then((n) => paintDownloads(n, true)).catch(() => {});
@@ -559,7 +575,7 @@ function initLyricsSwitch() {
 function initTabs() {
   $$("[data-tabs]").forEach((group) => {
     const tabs = $$('[role="tab"]', group);
-    const img = group.closest("article, .settings-tour").querySelector(".shot img");
+    const img = group.querySelector(".shot img") || group.closest("article, .settings-tour")?.querySelector(".shot img");
 
     function select(tab, focus) {
       tabs.forEach((t2) => {
