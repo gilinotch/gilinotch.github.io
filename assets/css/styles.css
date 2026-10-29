@@ -81,6 +81,11 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 16px);
+  /* The page is presented at 110%: everything scales up together, so the
+     layout keeps its proportions instead of re-flowing at a new breakpoint.
+     --zoom mirrors this number for the viewport-unit corrections below. */
+  --zoom: 1.1;
+  zoom: var(--zoom);
 }
 
 body {
@@ -1099,7 +1104,8 @@ kbd {
 .lightbox {
   width: min(1280px, 100% - 24px);
   max-width: none;
-  max-height: calc(100dvh - 24px);
+  /* 100dvh is not scaled by the page zoom, so divide by it to stay on screen. */
+  max-height: calc((100dvh - 24px) / var(--zoom, 1));
   padding: 0;
   border: 0;
   border-radius: 18px;
@@ -1117,7 +1123,7 @@ kbd {
 }
 .lightbox-caption { font-weight: 700; }
 .lightbox-media { position: relative; min-height: 120px; }
-.lightbox-media img { width: 100%; max-height: calc(100dvh - 110px); object-fit: contain; }
+.lightbox-media img { width: 100%; max-height: calc((100dvh - 110px) / var(--zoom, 1)); object-fit: contain; }
 .lightbox-status {
   position: absolute;
   inset: 0;
