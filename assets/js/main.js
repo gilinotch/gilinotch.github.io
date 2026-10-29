@@ -6,6 +6,7 @@
 const CONFIG = {
   DISCORD_URL: "https://discord.gg/p99FQFrHkG",
   DOWNLOAD_URL: "downloads/GILI-Notch-4.2.1.exe",
+  MSIX_URL: "downloads/GILI-Notch-4.2.1.msix",
 };
 
 const LANG_KEY = "gili-notch-lang";
@@ -24,7 +25,8 @@ const EN = {
   "theme.toggle": "Dark mode",
   "hero.title": "The top edge of your Windows screen, put to work.",
   "hero.lede": "GILI Notch adds a Dynamic Island style notch to Windows. Open it for your music with synced lyrics, quick toggles, per-app volume, notes, a to-do list and a focus timer, without leaving the window you are working in.",
-  "hero.download": "Download GILI Notch 4.2.1",
+  "hero.download": "Download GILI Notch 4.2.1 (.exe)",
+  "hero.downloadMsix": "Download the MSIX version",
   "hero.see": "See what's inside",
   "hero.meta": "Version 4.2.1 for Windows, 18 MB",
   "download.live": "Live",
@@ -102,7 +104,7 @@ const EN = {
   "cta.title": "Put GILI Notch on your PC",
   "cta.body": "Download GILI Notch 4.2.1, run the file, and the notch appears at the top edge of your screen. Questions before you install? Ask on Discord.",
   "cta.discord": "Ask on Discord",
-  "cta.meta": "Windows .exe file, 18 MB",
+  "cta.meta": "Windows .exe or .msix file, 18–24 MB",
   "cta.video": "Gili logo animation: a blue dome with waves, then the words gili, notch for windows",
   "support.title": "Support GILI Notch",
   "support.body": "If GILI Notch has earned its spot at the top of your screen, you can support its development by scanning the QRIS code.",
@@ -385,7 +387,7 @@ function initDownloadCount() {
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") refresh();
   });
-  $$('[data-config-link="DOWNLOAD_URL"]').forEach((link) => {
+  $$('[data-config-link="DOWNLOAD_URL"], [data-config-link="MSIX_URL"]').forEach((link) => {
     link.addEventListener("click", () => {
       if (link.getAttribute("aria-disabled") === "true") return;
       counterRequest("hit").then((n) => paintDownloads(n, true)).catch(() => {});
