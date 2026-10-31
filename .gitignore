@@ -1,3 +1,10 @@
 .vscode/
 Thumbs.db
 desktop.ini
+
+# Installers ship as GitHub Releases, never in git: each one adds ~20 MB to
+# history permanently and Pages cannot serve LFS objects.
+*.exe
+*.msix
+*.msi
+downloads/

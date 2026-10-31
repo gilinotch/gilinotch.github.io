@@ -5,7 +5,7 @@
  */
 const CONFIG = {
   DISCORD_URL: "https://discord.gg/p99FQFrHkG",
-  DOWNLOAD_URL: "downloads/GILI-Notch-4.2.1.exe",
+  DOWNLOAD_URL: "https://github.com/gilinotch/gilinotch.github.io/releases/download/v4.2.1/GILI-Notch-4.2.1-setup.exe",
 };
 
 const LANG_KEY = "gili-notch-lang";
@@ -26,7 +26,7 @@ const EN = {
   "hero.lede": "GILI Notch adds a Dynamic Island style notch to Windows. Open it for your music with synced lyrics, quick toggles, per-app volume, notes, a to-do list and a focus timer, without leaving the window you are working in.",
   "hero.download": "Download GILI Notch 4.2.1 (.exe)",
     "hero.see": "See what's inside",
-  "hero.meta": "Version 4.2.1 for Windows, 18 MB",
+  "hero.meta": "Version 4.2.1 for Windows, 19 MB",
   "download.live": "Live",
   "download.total": "Total downloads",
   "open.title": "A short hello every time GILI Notch opens",
@@ -102,7 +102,7 @@ const EN = {
   "cta.title": "Put GILI Notch on your PC",
   "cta.body": "Download GILI Notch 4.2.1, run the file, and the notch appears at the top edge of your screen. Questions before you install? Ask on Discord.",
   "cta.discord": "Ask on Discord",
-  "cta.meta": "Windows .exe file, 18 MB",
+  "cta.meta": "Windows .exe file, 19 MB",
   "cta.video": "Gili logo animation: a blue dome with waves, then the words gili, notch for windows",
   "support.title": "Support GILI Notch",
   "support.body": "If GILI Notch has earned its spot at the top of your screen, you can support its development by scanning the QRIS code.",
